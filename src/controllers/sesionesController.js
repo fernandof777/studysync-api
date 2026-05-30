@@ -1,6 +1,7 @@
 // src/controllers/sesionesController.js
 // Contiene la lógica de negocio para las sesiones de estudio
 // Por ahora usa un arreglo en memoria
+const { pub } = require('../redis/client');
 
 let sesiones = [];
 let nextId = 1;
@@ -92,6 +93,17 @@ const crear = async (req, res) => {
     };
 
     sesiones.push(nuevaSesion);
+    
+    await pub.publish(
+  'study:sesion:creada',
+  JSON.stringify({
+    tipo: 'sesion:creada',
+    payload: nuevaSesion,
+    timestamp: new Date().toISOString()
+  })
+);
+
+console.log('[Redis] Evento publicado');
 
     res.status(201).json(nuevaSesion);
 

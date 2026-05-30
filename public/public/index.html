@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>StudySync Tiempo Real</title>
+
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+  <h1>Eventos en tiempo real</h1>
+
+  <ul id="eventos"></ul>
+
+  <script>
+
+    const socket = io();
+
+    socket.on('nuevo-evento', (evento) => {
+
+      const lista = document.getElementById('eventos');
+
+      const item = document.createElement('li');
+
+      item.innerHTML = `
+        ${evento.payload.titulo}
+      `;
+
+      lista.prepend(item);
+
+    });
+
+  </script>
+
+</body>
+
+</html>

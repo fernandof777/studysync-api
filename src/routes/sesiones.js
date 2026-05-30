@@ -1,5 +1,7 @@
 // src/routes/sesiones.js
 
+const verificarToken = require('../middlewares/auth');
+
 const express = require('express');
 
 const router = express.Router();
@@ -13,7 +15,7 @@ router.get('/', ctrl.listar);
 router.get('/:id', ctrl.obtenerUna);
 
 // POST → crear
-router.post('/', ctrl.crear);
+router.post('/', verificarToken, ctrl.crear);
 
 // PUT → actualizar
 router.put('/:id', ctrl.actualizar);
